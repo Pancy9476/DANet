@@ -1,0 +1,72 @@
+{
+    "name": "DifFusion_Test",
+    "phase": "test",
+    "gpu_ids": [
+        0
+    ],
+
+    "path": {
+        "resume_state": "weights/diffusion"
+    },
+
+    "model_df": {
+        "feat_scales": [2, 5, 8, 11, 14],
+        "out_channels": 2,
+        "loss_type": "ce",
+        "output_cm_size": 128,
+        "psp": true,
+        "feat_type": "dec",
+        "t": [5,50,100]
+    },
+
+    "model": {
+        "which_model_G": "sr3",
+        "finetune_norm": false,
+        "unet": {
+            "in_channel": 2,
+            "out_channel": 2,
+            "inner_channel": 128,
+            "channel_multiplier": [
+                1,
+                2,
+                4,
+                8,
+                8
+            ],
+            "attn_res": [
+                16
+            ],
+            "res_blocks": 2,
+            "dropout": 0.2
+        },
+        "beta_schedule": {
+            "train": {
+                "schedule": "linear",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            },
+            "val": {
+                "schedule": "linear",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            },
+            "test": {
+                "schedule": "linear",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            }
+        },
+        "diffusion": {
+            "image_size": 128,
+            "image_size_w": 128,
+            "image_size_h": 128,
+            "channels": 2,
+            "loss": "l2",
+            "is_concat": false,
+            "conditional": false
+        }
+    }
+}
